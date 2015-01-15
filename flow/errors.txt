@@ -1,0 +1,2 @@
+There is a transaction registry with an account number such does not exist: Transaction registry with account number: 400 and amount 100,56
+There is a transaction registry with an account number such does not exist: Transaction registry with account number: 900 and amount 82,17

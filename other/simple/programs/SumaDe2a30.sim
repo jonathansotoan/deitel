@@ -1,0 +1,9 @@
+1 rem Exercise 17.26.f
+2 rem
+3 let a = 2
+4 if a == 32 goto 50
+5 let b = a + b
+6 let a = a + 2
+7 goto 4
+50 print b
+51 end

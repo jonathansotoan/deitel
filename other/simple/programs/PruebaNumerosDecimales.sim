@@ -1,0 +1,5 @@
+1 input a
+2 let b = a + 45.3467
+2.5 print_string "también se pueden usar decimales para los números de líneas ;)"
+3 print b
+4 end

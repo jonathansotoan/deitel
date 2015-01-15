@@ -1,0 +1,8 @@
+1 rem Exercise 17.26.b
+2 rem
+3 input a
+4 if a == -9999 goto 50
+5 let b = a + b
+6 goto 3
+50 print b
+51 end

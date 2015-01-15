@@ -1,0 +1,5 @@
+1 input a[0]
+2 print a[0]
+3 let b[15] = 25
+4 print b[15]
+5 end

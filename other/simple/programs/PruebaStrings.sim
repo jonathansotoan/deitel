@@ -1,0 +1,6 @@
+1 print_string "Hola mundo en Simple, compilador del lenguaje máquina Simpletron"
+2 println
+3 input_string a
+4 print_string a
+5 print_string "Hola a todos! :D"
+10 end

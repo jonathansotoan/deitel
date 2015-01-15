@@ -1,0 +1,10 @@
+1 rem Exercise 17.26.g
+2 rem
+3 let a = 1
+4 let b = 1
+5 if a == 11 goto 50
+6 let b = a * b
+7 let a = a + 2
+8 goto 5
+50 print b
+51 end

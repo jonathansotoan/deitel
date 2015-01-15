@@ -1,0 +1,12 @@
+1 rem Exercise 17.26.c
+2 rem
+3 rem el programa se puede ejectuar exactamente igual aún sin la siguiente línea
+4 let a = 0
+5 if a == 7 goto 50
+6 input b
+7 let c = b + c
+8 let a = a + 1
+9 goto 5
+50 let d = c / 7
+51 print d
+52 end

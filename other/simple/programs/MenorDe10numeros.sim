@@ -1,0 +1,12 @@
+1 rem Exercise 17.26.e
+2 rem
+3 let a = 1
+4 input b
+5 if a == 10 goto 50
+6 input c
+7 if b < c goto 20
+8 let b = c
+20 let a = a + 1
+21 goto 5
+50 print b
+51 end
