@@ -171,4 +171,31 @@ public class Calculating {
    public static final < T > boolean isEqual( T object1, T object2 ) {
    	return object1.equals( object2 );
    }
+
+   /**
+    * Returns the hypotenuse (the longest side) of a right triangle given the
+    * other 2 sides.
+    * <p/>
+    * @param	side1	one of the sides that intersects with the hypotenuse
+    * @param	side2	the other of the sides that intersects with the hypotenuse
+    * @return			the hypotenuse of this right triangle
+    */
+   public static int getHypotenuse(int side1, int side2) {
+   	return (int)Math.sqrt(side1 * side1 + side2 * side2);
+   }
+
+   /**
+    * Returns the approximate perimeter of an ellipse that has the specified
+    * pair of radius (the order does not matter).
+    * <p/>
+    * @param	radius1		one of the two radius of the ellipse
+    * @param	radius2		the other of the two radius of the ellipse
+    * @return				the perimeter of the ellipse
+    */
+   public static double getEllipsePerimeter(float radius1, float radius2) {
+   	float r = Math.max(radius1, radius2);
+   	float s = Math.min(radius1, radius2);
+
+   	return Math.PI * (3 * (r + s) - Math.sqrt((3 * r + s) * (r + 3 * s)));
+   }
 }
