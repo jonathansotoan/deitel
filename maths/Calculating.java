@@ -145,57 +145,72 @@ public class Calculating {
 	}
 
 	// declaración recursiva del método fibonacci
-   public final static long fibonacci( long numero )
-   {
-      if ( ( numero == 0 ) || ( numero == 1 ) ) // casos base
-         return numero;
-      else // paso recursivo
-         return fibonacci( numero - 1 ) + fibonacci( numero - 2 );
-   } // fin del método fibonacci
-   
-   public final static boolean isNumber( String possibleNumber ) {
-   	try {
-   		Integer.parseInt( possibleNumber );
-   		return true;
-   	} catch( NumberFormatException numberFormatEx ) {
-   		try {
+	public final static long fibonacci( long numero )
+	{
+		if ( ( numero == 0 ) || ( numero == 1 ) ) // casos base
+			return numero;
+		else // paso recursivo
+			return fibonacci( numero - 1 ) + fibonacci( numero - 2 );
+	} // fin del método fibonacci
+	
+	public final static boolean isNumber( String possibleNumber ) {
+		try {
+			Integer.parseInt( possibleNumber );
+			return true;
+		} catch( NumberFormatException numberFormatEx ) {
+			try {
 				Double.parseDouble( possibleNumber );
 				return true;
 			} catch( NumberFormatException numberFormatEx2 ) {
 				return false;
 			}
-   	}
-   }
-   
-   //Exercise 18.7
-   public static final < T > boolean isEqual( T object1, T object2 ) {
-   	return object1.equals( object2 );
-   }
+		}
+	}
+	
+	//Exercise 18.7
+	public static final < T > boolean isEqual( T object1, T object2 ) {
+		return object1.equals( object2 );
+	}
 
-   /**
-    * Returns the hypotenuse (the longest side) of a right triangle given the
-    * other 2 sides.
-    * <p/>
-    * @param	side1	one of the sides that intersects with the hypotenuse
-    * @param	side2	the other of the sides that intersects with the hypotenuse
-    * @return			the hypotenuse of this right triangle
-    */
-   public static int getHypotenuse(int side1, int side2) {
-   	return (int)Math.sqrt(side1 * side1 + side2 * side2);
-   }
+	/**
+	 * Returns the int approximation of the hypotenuse (the longest side) of a
+	* right triangle given the other 2 sides.
+	 * <p/>
+	 * @param	side1							one of the sides that intersects with the hypotenuse
+	 * @param	side2							the other of the sides that intersects with the hypotenuse
+	 * @return									the hypotenuse of this right triangle
+	 * @throws	NegativeArgumentException		if one of the provided sides is negative
+	 */
+	public static int getHypotenuse(int side1, int side2) throws NegativeArgumentException {
+		if(side1 < 0 || side2 < 0)
+			throw new NegativeArgumentException("There is not right triangles with negative sides. [Sides: " + side1 + ", " + side2 + "]");
 
-   /**
-    * Returns the approximate perimeter of an ellipse that has the specified
-    * pair of radius (the order does not matter).
-    * <p/>
-    * @param	radius1		one of the two radius of the ellipse
-    * @param	radius2		the other of the two radius of the ellipse
-    * @return				the perimeter of the ellipse
-    */
-   public static double getEllipsePerimeter(float radius1, float radius2) {
-   	float r = Math.max(radius1, radius2);
-   	float s = Math.min(radius1, radius2);
+		return (int)Math.round(Math.sqrt(side1 * side1 + side2 * side2));
+	}
 
-   	return Math.PI * (3 * (r + s) - Math.sqrt((3 * r + s) * (r + 3 * s)));
-   }
+	/**
+	 * Returns the approximate perimeter of an ellipse that has the specified
+	 * pair of radius (the order does not matter).
+	 * <p/>
+	 * @param	radius1		one of the two radius of the ellipse
+	 * @param	radius2		the other of the two radius of the ellipse
+	 * @return				the perimeter of the ellipse
+	 * @throws	NegativeArgumentException		if one of the provided radiuses is negative
+	 */
+	public static double getEllipsePerimeter(float radius1, float radius2) throws NegativeArgumentException {
+		if(radius1 < 0 || radius2 < 0)
+			throw new NegativeArgumentException("There is not ellipses with negative radiuses. [Radiuses: " + radius1 + ", " + radius2 + "]");
+
+		float r = Math.max(radius1, radius2);
+		float s = Math.min(radius1, radius2);
+
+		return Math.PI * (3 * (r + s) - Math.sqrt((3 * r + s) * (r + 3 * s)));
+	}
+
+	public static class NegativeArgumentException extends Exception {
+
+		public NegativeArgumentException(String message) {
+			super(message);
+		}
+	}
 }
