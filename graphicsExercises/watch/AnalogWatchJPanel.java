@@ -9,7 +9,7 @@ import java.awt.Graphics2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class DigitalWatchJPanel extends JPanel {
+public class AnalogWatchJPanel extends JPanel {
 	private BasicStroke stroke;
 	private Color background;
 	private Color frameColor;
@@ -26,7 +26,7 @@ public class DigitalWatchJPanel extends JPanel {
 	 * @param	linesColor		the color of the lines that the hands point to
 	 * @param	numbersColor	the color of the numbers that the lines point to
 	 */
-	public DigitalWatchJPanel(float width, Color background, Color frameColor, Color handsColor, Color linesColor, Color numbersColor) {
+	public AnalogWatchJPanel(float width, Color background, Color frameColor, Color handsColor, Color linesColor, Color numbersColor) {
 		stroke = new BasicStroke(width);
 		this.background = background;
 		this.frameColor = frameColor;
@@ -38,7 +38,7 @@ public class DigitalWatchJPanel extends JPanel {
 	/**
 	 * Creates a black watch with white background, and a width of 5.
 	 */
-	public DigitalWatchJPanel() {
+	public AnalogWatchJPanel() {
 		stroke = new BasicStroke(5.0f);
 		background = Color.WHITE;
 		frameColor = handsColor = linesColor = numbersColor = Color.BLACK;
@@ -65,8 +65,8 @@ public class DigitalWatchJPanel extends JPanel {
 	}
 
 	public static void main(String[] args) {
-		JFrame wndw = new JFrame("DigitalWatchJPanel testing");
-		DigitalWatchJPanel watch = new DigitalWatchJPanel();
+		JFrame wndw = new JFrame("AnalogWatchJPanel testing");
+		AnalogWatchJPanel watch = new AnalogWatchJPanel();
 		wndw.add(watch);
 		wndw.setSize(300, 300);
 		wndw.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
