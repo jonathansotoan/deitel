@@ -7,10 +7,20 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * This is a simple digital watch ready to be added on any container.
+ * <p/>
+ * @author	Jonathan Alexander Soto Montoya (jonathansoto.an@gmail.com)
+ * @version	1, 19/01/15
+ */
 public class DigitalWatchJPanel extends JPanel {
 	private CurrentTime currentTime;
 	private Dimension preferredSize;
 
+	/**
+	 * Creates a DigitalWatchJPanel.
+	 * <p/>
+	 */
 	public DigitalWatchJPanel() {
 		super();
 		currentTime = new CurrentTime(null, null, new ActionListener() {
