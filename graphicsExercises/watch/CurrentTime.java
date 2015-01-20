@@ -88,10 +88,14 @@ public class CurrentTime {
 	 * of 59. This means that if the original value is 59, 0 is going to be
 	 * returned.
 	 * <p/>
-	 * @param	originalValue	the original value that is going to be incremented by 1
-	 * @return					the original value plus 1 (with a maximum of 59)
+	 * @param	originalValue		the original value that is going to be incremented by 1
+	 * @return						the original value plus 1 (with a maximum of 59)
+	 * @throws	WrongHourException	when original value is greater or equal than 60
 	 */
-	private byte increment(byte originalValue) {
+	private byte increment(byte originalValue) throws WrongHourException {
+		if(originalValue > 59)
+			throw new WrongHourException("The maximum of a second/minute/hour must be 59, and it is currently " + originalValue);
+
 		return (byte) ((originalValue + 1) % 60);
 	}
 
@@ -104,5 +108,19 @@ public class CurrentTime {
 	@Override
 	public String toString() {
 		return String.format("%02d:%02d:%02d", getHour(), getMinute(), getSecond());
+	}
+
+	/**
+	 * It is an exception that is thrown when 60 or a greater number is used to
+	 * increment the hour, minute or second (it is possible via setter methods).
+	 * <p/>
+	 * @author	Jonathan Alexander Soto Montoya (jonathansoto.an@gmail.com)
+	 * @version	1, 19/01/15
+	 */
+	public class WrongHourException extends Exception {
+
+		public WrongHourException(String message) {
+			super(message);
+		}
 	}
 }
