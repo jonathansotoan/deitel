@@ -90,10 +90,8 @@ public class CurrentTime {
 	 * <p/>
 	 * @param	originalValue		the original value that is going to be incremented by 1
 	 * @return						the original value plus 1 (with a maximum of 59)
-	 * @throws	WrongHourException	when original value is greater or equal than 60
 	 */
 	private byte increment(byte originalValue) {
-		originalValue %= 60;
 		return (byte) ((originalValue + 1) % 60);
 	}
 
