@@ -14,14 +14,14 @@ import javax.swing.Timer;
  * @version	1, 19/01/15
  */
 public class CurrentTime {
-	private byte hour;
-	private byte minute;
-	private byte second;
+	private Time currentTime;
 	private Timer timer;
 
 	/**
 	 * Creates a CurrentTime object with the specified listeners for hour,
-	 * minute and second respectively (these listeners can be set to null).
+	 * minute and second respectively (these listeners can be set to null). If
+	 * you want that the calls to the specified listeners stop, call
+	 * stopListenersCalls method.
 	 * </p>
 	 * @param	hourChanged		the listener that is going to be called when the current hour changes
 	 * @param	minuteChanged	the listener that is going to be called when the current minute changes
@@ -35,74 +35,47 @@ public class CurrentTime {
 		timer = new Timer(1000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				second = increment(second);
-				if(secondChanged != null) secondChanged.actionPerformed(ae);
+				boolean[] changeLog = currentTime.incrementSecond();
 
-				if(second == 0) {
-					minute = increment(minute);
-					if(minuteChanged != null) minuteChanged.actionPerformed(ae);
+				if(secondChanged != null)
+					secondChanged.actionPerformed(ae);
 
-					if(minute == 0) {
-						hour = increment(hour);
-						if(hourChanged != null) hourChanged.actionPerformed(ae);
-					}
-				}
+				if(minuteChanged != null && changeLog[1])
+					minuteChanged.actionPerformed(ae);
+
+				if(hourChanged != null && changeLog[0])
+					hourChanged.actionPerformed(ae);
 			}
 		});
 
-		hour = (byte) Calendar.getInstance().get(Calendar.HOUR);
-		minute = (byte) Calendar.getInstance().get(Calendar.MINUTE);
-		second = (byte) Calendar.getInstance().get(Calendar.SECOND);
+		currentTime = new Time(
+			(byte) Calendar.getInstance().get(Calendar.HOUR),
+			(byte) Calendar.getInstance().get(Calendar.MINUTE),
+			(byte) Calendar.getInstance().get(Calendar.SECOND)
+		);
 		timer.start();
 	}
 
 	/**
-	 * Returns the current hour.
+	 * Returns the current time represented with a Time object.
 	 * <p/>
-	 * @return	the current hour
+	 * @return				a Time object representing the current time
 	 */
-	public byte getHour() {
-		return hour;
+	public Time getTime() {
+		return currentTime;
 	}
 
 	/**
-	 * Returns the current minute.
-	 * <p/>
-	 * @return	the current minute
+	 * Make this object stop calling the listeners from the current object.
+	 * Note: You should call this method after you remove every reference to
+	 * your object.
 	 */
-	public byte getMinute() {
-		return minute;
+	public void stopListenersCalls() {
+		timer.stop();
 	}
 
-	/**
-	 * Returns the current second.
-	 * <p/>
-	 * @return	the current second
-	 */
-	public byte getSecond() {
-		return second;
-	}
-
-	/**
-	 * Takes the original value and returns it incremented by one with a maximum
-	 * of 59. This means that if the original value is 59, 0 is going to be
-	 * returned.
-	 * <p/>
-	 * @param	originalValue		the original value that is going to be incremented by 1
-	 * @return						the original value plus 1 (with a maximum of 59)
-	 */
-	private byte increment(byte originalValue) {
-		return (byte) ((originalValue + 1) % 60);
-	}
-
-	/**
-	 * Returns a String representation of this CurrentTime with the following
-	 * format: HH:MM:SS.
-	 * <p/>
-	 * @return				a String representation of the time with the following format: HH:MM:SS
-	 */
 	@Override
-	public String toString() {
-		return String.format("%02d:%02d:%02d", getHour(), getMinute(), getSecond());
+	protected void finalize() {
+		timer.stop();
 	}
 }
