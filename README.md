@@ -9,6 +9,9 @@ Some of the code you can find here:
 * Images that are erased with shapes randomly.
 * Probabilistic programs and games.
 * Search and ordering programs.
+* Fractal programs.
+* Converter of prefixes and postfixes.
+* An application that solves the horses' problem.
 * Tests for some of this code (under the folder deitel/tests/).
 * A compiler of a high level programming language called simple (compiles code to LMS).
 * An interpreter of simple.
