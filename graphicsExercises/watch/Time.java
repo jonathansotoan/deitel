@@ -19,9 +19,18 @@ public class Time {
 	 * @param	second	the second of this Time object
 	 */
 	public Time(byte hour, byte minute, byte second) {
-		this.hour = hour;
-		this.minute = minute;
-		this.second = second;
+		this.hour = (byte) (hour % 12);
+		this.minute = (byte) (minute % 60);
+		this.second = (byte) (second % 60);
+	}
+
+	/**
+	 * Creates a Time object from the specified one.
+	 * <p/>
+	 * @param	other	the other Time object where the copy is going to be created
+	 */
+	public Time(Time other) {
+		this(other.getHour(), other.getMinute(), other.getSecond());
 	}
 
 	/**

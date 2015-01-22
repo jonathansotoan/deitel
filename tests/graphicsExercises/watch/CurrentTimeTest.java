@@ -40,8 +40,8 @@ public class CurrentTimeTest {
 
 	// error margins (milliseconds)
 	private final short SECOND_DELTA = 65;
-	private final short MINUTE_DELTA = 150;
-	private final short HOUR_DELTA = 220; // full hours are not tested here (it would be too boring)
+	private final short MINUTE_DELTA = 190;
+	private final short HOUR_DELTA = 270; // full hours are not tested here (it would be too boring)
 
 	// Time objects for testing
 	private Time longTestTime;
@@ -50,16 +50,23 @@ public class CurrentTimeTest {
 	// for testStopListenersCalls method
 	private boolean callsStopped;
 
+	// Time object to test when hour is changed
+	private Time timeOnHourChange;
+
+	// for feedback during tests
+	private int secondsPassed;
+
 	/**
 	 * Creates CurrentTime object ready for being tested.
 	 */
 	@Before
 	public void setUp() {
-		System.out.println("This test will run for about 130 seconds");
+		System.out.println("This test will run for about 132 seconds");
 
 		hourListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				timeOnHourChange = new Time(currentTime.getTime());
 				hourChangedMillis = System.currentTimeMillis();
 			}
 		};
@@ -77,8 +84,9 @@ public class CurrentTimeTest {
 		secondListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				System.out.print(++secondsPassed + " ");
+
 				if(!secondTaken) {
-					System.out.println("secondTaken");
 					secondChangedMillis = System.currentTimeMillis();
 					secondTaken = true;
 				}
@@ -86,15 +94,17 @@ public class CurrentTimeTest {
 		};
 
 		
-		longTestTime = new Time((byte) 5, (byte) 59, (byte) 0);
+		longTestTime = new Time((byte) 5, (byte) 58, (byte) 0);
 		shortTestTime = new Time((byte) 11, (byte) 59, (byte) 59);
 	}
 
-	public void init() {
-		System.out.println("initing.../constructing...");
+	/**
+	 * Restart some variables for every test. This make every test independent
+	 * from the others.
+	 */
+	public void restart() {
 		secondTaken = minuteTaken = false;
 		hourChangedMillis = minuteChangedMillis = secondChangedMillis = 0;
-		if(currentTime != null) currentTime.stopListenersCalls();
 		currentTime = new CurrentTime(hourListener, minuteListener, secondListener);
 		initMillis = System.currentTimeMillis();
 	}
@@ -106,25 +116,25 @@ public class CurrentTimeTest {
 	@Test
 	public void testCurrentTimeLongTest() {
 		try {
-			init();
+			restart();
 			setTime(currentTime, longTestTime);
 
-			Thread.sleep(61000);
+			Thread.sleep(124000);
+			currentTime.stopListenersCalls();
 
-			System.out.println("second: "+(secondChangedMillis - initMillis));
-			System.out.println("minute: "+(minuteChangedMillis - initMillis));
-			System.out.println("hour: "+(hourChangedMillis - initMillis));
+			System.out.println("time: "+timeOnHourChange);
+			System.out.println("time2: "+currentTime.getTime());
 
 			assertAreEqual("second", secondChangedMillis,
 				initMillis + 1000, SECOND_DELTA);
 			assertAreEqual("minute", minuteChangedMillis,
 				initMillis + 60000, MINUTE_DELTA);
 			assertAreEqual("hour", hourChangedMillis,
-				initMillis + 60000, HOUR_DELTA);
+				initMillis + 120000, HOUR_DELTA);
 			assertEquals(
 				"[Times are not equal] =>",
 				new Time((byte) 6, (byte) 0, (byte) 0),
-				currentTime.getTime()
+				timeOnHourChange
 			);
 		} catch(InterruptedException ie) {
 			fail("\nSomething went wrong trying to sleep the current Thread" + Utils.throwableToString(ie));
@@ -138,10 +148,11 @@ public class CurrentTimeTest {
 	@Test
 	public void testCurrentTimeShortTest() {
 		try {
-			init();
+			restart();
 			setTime(currentTime, shortTestTime);
 
 			Thread.sleep(1500);
+			currentTime.stopListenersCalls();
 
 			assertAreEqual("second", secondChangedMillis,
 				initMillis + 1000, SECOND_DELTA);
@@ -166,7 +177,8 @@ public class CurrentTimeTest {
 	@Test
 	public void testStopListenersCalls() {
 		try {
-			init();
+			restart();
+
 			currentTime = new CurrentTime(null, null, new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent ae) {
